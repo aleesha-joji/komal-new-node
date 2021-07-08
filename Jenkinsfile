@@ -19,19 +19,22 @@ pipeline {
         }
         stage('Unit test') {
             steps {
-                sh 'chmod +x ./jenkins/scripts/test.sh'
-                sh './jenkins/scripts/test.sh'
+                script {
+                     sh 'chmod +x ./jenkins/scripts/test.sh'
+                     sh './jenkins/scripts/test.sh'
+                     stash name: "report-task", includes: "*.txt"
+                }
             }
         }
-//         stage('Sonarqube analysis') {
-//             steps {
-//                 script {
-//                     withSonarQubeEnv('sonar'){
-//                         sh 'npm sonar:sonar -DskipTests'
-//                      }
-//                  }
-//             }
-//         }
+        stage('Sonarqube analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('sonar'){
+                        sh 'npm sonar:sonar -DskipTests'
+                     }
+                 }
+            }
+        }
         // stage('Artifactory') {
         //     steps {
         //         script {
