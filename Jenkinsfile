@@ -19,14 +19,12 @@ pipeline {
         }
         stage('Unit test') {
             steps {
-                sh 'npm test'
+                script {
+                     sh 'chmod +x ./jenkins/scripts/test.sh'
+                     sh './jenkins/scripts/test.sh'
+                     stash name: "report-task.txt"
                 }
-                post {
-                    always {
-                        junit 'target/surefire-reports/*.txt'
-                    }                
-                }
-            
+            }
         }
         stage('Sonarqube analysis') {
             steps {
