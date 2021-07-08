@@ -22,7 +22,7 @@ pipeline {
                 script {
                      sh 'chmod +x ./jenkins/scripts/test.sh'
                      sh './jenkins/scripts/test.sh'
-                     stash name: "report-task", includes: "*.txt"
+                     stash name: "report-task.txt"
                 }
             }
         }
