@@ -22,19 +22,23 @@ pipeline {
                 script {
                      sh 'chmod +x ./jenkins/scripts/test.sh'
                      sh './jenkins/scripts/test.sh'
-                     stash name: "report-task.txt"
+                }
+                post {
+                    always {
+                        junit 'target/surefire-reports/*.xml'
+                    }                
                 }
             }
         }
-//         stage('Sonarqube analysis') {
-//             steps {
-//                 script {
-//                     withSonarQubeEnv('sonar'){
-//                         sh 'npm sonar:sonar -DskipTests'
-//                      }
-//                  }
-//             }
-//         }
+        stage('Sonarqube analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('sonar'){
+                        sh 'mvn sonar:sonar -DskipTests'
+                     }
+                 }
+            }
+        }
 //         stage('Artifactory') {
 //             steps {
 //                 script {
