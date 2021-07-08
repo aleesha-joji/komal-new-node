@@ -35,17 +35,17 @@ pipeline {
 //                  }
 //             }
 //         }
-        stage('Artifactory') {
-            steps {
-                script {
-                    unstash name:"artifact"
-                    docker.withTool('docker') {
-                        docker.withRegistry('https://artifactory.dagility.com', 'aleesha-registry'){
-                            docker.build(registry + "nodejs:latest").push()
-                        }
-                    }
-                }
-            }
-        }
+//         stage('Artifactory') {
+//             steps {
+//                 script {
+//                     unstash name:"artifact"
+//                     docker.withTool('docker') {
+//                         docker.withRegistry('https://artifactory.dagility.com', 'aleesha-registry'){
+//                             docker.build(registry + "nodejs:latest").push()
+//                         }
+//                     }
+//                 }
+//             }
+//         }
     }
 }
