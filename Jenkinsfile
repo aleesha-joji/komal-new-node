@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar'){
-                        sh 'mvn sonar:sonar -DskipTests'
+                        sh 'npm sonar:sonar -DskipTests'
                      }
                  }
             }
