@@ -26,26 +26,26 @@ pipeline {
                 }
             }
         }
-        stage('Sonarqube analysis') {
+//         stage('Sonarqube analysis') {
+//             steps {
+//                 script {
+//                     withSonarQubeEnv('sonar'){
+//                         sh 'npm sonar:sonar -DskipTests'
+//                      }
+//                  }
+//             }
+//         }
+        stage('Artifactory') {
             steps {
                 script {
-                    withSonarQubeEnv('sonar'){
-                        sh 'npm sonar:sonar -DskipTests'
-                     }
-                 }
+                    unstash name:"artifact"
+                    docker.withTool('docker') {
+                        docker.withRegistry('https://artifactory.dagility.com', 'aleesha-registry'){
+                            docker.build(registry + "nodejs:latest").push()
+                        }
+                    }
+                }
             }
         }
-        // stage('Artifactory') {
-        //     steps {
-        //         script {
-        //             unstash name:"artifact"
-        //             docker.withTool('docker') {
-        //                 docker.withRegistry('https://artifactory.dagility.com', 'aleesha-registry'){
-        //                     docker.build(registry + "nodejs:latest").push()
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
